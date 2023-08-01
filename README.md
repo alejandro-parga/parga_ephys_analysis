@@ -1,6 +1,9 @@
 # parga_ephys_analysis
-### Set-up Instructions
 
+### Rulegraph
+![](rulegraph.png)
+
+### Set-up Instructions
 1. clone or fork this repo:
 ```
 {code}
