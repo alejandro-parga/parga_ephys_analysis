@@ -1,0 +1,7 @@
+.snakemake
+extras
+logs
+results
+test
+verify
+.DS_Store
