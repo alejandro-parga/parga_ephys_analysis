@@ -19,7 +19,9 @@ rule all:
         #expand("analysis/figures/{animal}/cell_noise_plots/{cell}_noise{f}.png",animal = ["NHP","Thy1"],f=fs)
         #fix this later
         expand("analysis/figures/{animal}/cell_noise_plots/tables/done{f}.txt",animal = ["NHP","Thy1"],f=fs),
-        expand("analysis/{animal}/XE991{drug}_{table}_merged.csv", animal = ["NHP"], drug = drugs, table = ["FITable","VITable","ZAPTable"])
+        expand("analysis/{animal}/XE991{drug}_{table}_merged.csv", animal = ["NHP"], drug = drugs, table = ["FITable","VITable","ZAPTable"]),
+        expand("analysis/figures/{animal}/drug/{table}/done.txt",animal=["NHP"],table=["FITable","VITable","ZAPTable"]),
+        expand("analysis/figures/{animal}/FITable/done.txt",animal=animals)
 
 # works for memprop_tables
 rule merge_tables:
@@ -116,20 +118,32 @@ rule merge_drug_tables:
         "scripts/merge_drug_tables.py"
 
 # works for NHP drug applications
-# rule plot_drug:
-#     input:
-#         "analysis/{animal}/0noise{f}_Table_merged.csv",
-#         "analysis/{animal}/pink{f}_Table_merged.csv",
-#         "analysis/{animal}/white{f}_Table_merged.csv"
-#     output:
-#         "analysis/figures/{animal}/frequency_{f}.png"
-#     params:
-#         animal="{animal}",
-#         f="{f}"
-#     wildcard_constraints:
-#         animal="NHP|Thy1"
-#     script:
-#         "scripts/plot_noise_tables.py"
+rule plot_drug:
+    input:
+        a="analysis/{animal}/XE991a_{table}_merged.csv",
+        b="analysis/{animal}/XE991b_{table}_merged.csv"
+    output:
+        out="analysis/figures/{animal}/drug/{table}/done.txt"
+    params:
+        animal="{animal}",
+        prop="{table}"
+    log: 
+        "logs/plot_drug_tables/{animal}_{table}.log"
+    script:
+        "scripts/plot_drug_tables.py"
+
+# works for ploting APs from FITable
+rule plot_APs:
+    input: 
+        "analysis/{animal}/FITable_merged.csv"
+    output:
+        out="analysis/figures/{animal}/FITable/done.txt"
+    params:
+        animal="{animal}"
+    log:
+        "logs/plot_APs/{animal}.log"
+    script:
+        "scripts/plot_FI_APs_per_cell.py"
 
 # delete tables to force re-creation for update 
 rule clean:
