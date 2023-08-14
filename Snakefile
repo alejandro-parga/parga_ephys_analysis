@@ -145,6 +145,14 @@ rule plot_APs:
     script:
         "scripts/plot_FI_APs_per_cell.py"
 
+rule update_rulegraph:
+    input:
+        "Snakefile"
+    output:
+        "rulegraph.png"
+    shell:
+        "snakemake --forceall --rulegraph | dot -Tpng > rulegraph.png"
+
 # delete tables to force re-creation for update 
 rule clean:
     input:
