@@ -18,7 +18,7 @@ rule all:
         expand("analysis/figures/{animal}/frequency_{f}.png",animal = ["NHP","Thy1"],f=fs),
         #expand("analysis/figures/{animal}/cell_noise_plots/{cell}_noise{f}.png",animal = ["NHP","Thy1"],f=fs)
         #fix this later
-        expand("analysis/figures/{animal}/cell_noise_plots/tables/done{f}.txt",animal = ["NHP","Thy1"],f=fs),
+        expand("analysis/figures/{animal}/cell_noise_plots/tables/done.txt",animal = ["NHP"]),
         expand("analysis/{animal}/XE991{drug}_{table}_merged.csv", animal = ["NHP"], drug = drugs, table = ["FITable","VITable","ZAPTable"]),
         expand("analysis/figures/{animal}/drug/{table}/done.txt",animal=["NHP"],table=["FITable","VITable","ZAPTable"]),
         expand("analysis/figures/{animal}/FITable/done.txt",animal=animals)
@@ -83,19 +83,18 @@ rule plot_noise_F:
         "scripts/plot_noise_tables.py"
 
 # works for NHP and Thy1 by cell
-rule plot_noise_F_by_cell:
+rule plot_noise_by_cell:
     input:
-        # "results/{animal}/{cell}/{cell}_0noise{f}_Table.csv",
-        # "results/{animal}/{cell}/{cell}_pink{f}_Table.csv",
-        # "results/{animal}/{cell}/{cell}_white{f}_Table.csv"
+        # "results/{animal}/{cell}/{cell}_0noiseF_Table.csv",
+        # "results/{animal}/{cell}/{cell}_pinkF_Table.csv",
+        # "results/{animal}/{cell}/{cell}_whiteF_Table.csv"
         "results/{animal}/"
     output:
         #fix this later
-        "analysis/figures/{animal}/cell_noise_plots/tables/done{f}.txt"
-        #"analysis/figures/{animal}/cell_noise_plots/{cell}_noise{f}.png"
+        "analysis/figures/{animal}/cell_noise_plots/tables/done.txt"
+        #"analysis/figures/{animal}/cell_noise_plots/{cell}_noise.png"
     params:
-        animal="{animal}",
-        f="{f}"
+        animal="{animal}"
     wildcard_constraints:
         animal="NHP|Thy1"
     script:
