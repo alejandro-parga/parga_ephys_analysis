@@ -1,3 +1,0 @@
-cell_name,APs[][0],maxHz[][0],current_injection[][0],initial_gain,max_gain,initial_ifreq_gain,max_ifreq_gain,train_current,SFA,CV,mAHP,threshold_current,threshold_t,AP_threshold,AP_peak,AP_amp,max_dvdt,min_dvdt,f_AHP,AP_HW,FI_first,FI_last,sag_subrheo,rebound_subrheo,fr_inst_max_gain,fr_avg_max_gain,i_max_gain,Vm_subrheo
-,0,0,0,,,,,,,,,,,,,,,,,,,,,,,,,
-AP060723C,[31 56 70 70 66 0 0 0 0 0],[17.913 122.13 134.48 151.61 155.87 0 0 0 0 0],[418.1 518.1 618.1 718.1 818.1 3489.8 1 3500.4 1 3499.7],,0.14,,0.123507,418.096,0.682488,0.710539,-14.1616,418.096,,-42.8307,33.4132,76.2439,262.216,-86.3092,14.8732,1.36377,41,50,,,0,0,3500.45,
