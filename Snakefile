@@ -5,17 +5,23 @@
 
 ### VARIABLES
 #memprop_tables = ["FITable","VITable","ZAPTable","APTable"]
-noise_tables = ["0noiseF_Table","0noiseF1_Table","0noiseF2_Table","pinkF_Table","pinkF1_Table","pinkF2_Table","whiteF_Table","whiteF1_Table","whiteF2_Table"]
+# below variables for F1 and F2 merged noise tables
+# noise_tables = ["0noiseF_Table","0noiseF1_Table","0noiseF2_Table","pinkF_Table","pinkF1_Table","pinkF2_Table","whiteF_Table","whiteF1_Table","whiteF2_Table"]
+noise_tables = ['0noiseF_Table','pinkF_Table','whiteF_Table'] # noise variable for only F merged noise tables
 animals = ["NHP","Thy1","Etv1"]
 fs = ["F","F1","F2"]
 drugs = ["a","b"]
 
 rule all:
     input:
+        #makes membraine property tables "merge_tables"
         expand("analysis/{animal}/{table}_merged.csv",animal = animals,table = ["FITable","VITable","ZAPTable","APTable"]),
+        #plot membraine property "plot_membrane_properties"
         expand("analysis/figures/{animal}/{table}/done.txt",animal = animals,table = ["VITable","ZAPTable"]),
-        expand("analysis/{animal}/{table}_merged.csv",animal = animals,table = noise_tables),
-        expand("analysis/figures/{animal}/frequency_{f}.png",animal = ["NHP","Thy1"],f=fs),
+        #makes merged noise tables
+        expand("analysis/{animal}/{table}_merged.csv",animal = ["NHP", "Thy1"],table = noise_tables),
+        # makes plots for F1 and F2 noise
+        # expand("analysis/figures/{animal}/frequency_{f}.png",animal = ["NHP","Thy1"],f=fs),
         #expand("analysis/figures/{animal}/cell_noise_plots/{cell}_noise{f}.png",animal = ["NHP","Thy1"],f=fs)
         #fix this later
         expand("analysis/figures/{animal}/cell_noise_plots/tables/done.txt",animal = ["NHP"]),
