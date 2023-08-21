@@ -24,7 +24,7 @@ rule all:
         # expand("analysis/figures/{animal}/frequency_{f}.png",animal = ["NHP","Thy1"],f=fs),
         #expand("analysis/figures/{animal}/cell_noise_plots/{cell}_noise{f}.png",animal = ["NHP","Thy1"],f=fs)
         #fix this later
-        expand("analysis/figures/{animal}/cell_noise_plots/tables/done.txt",animal = ["NHP"]),
+        expand("analysis/figures/{animal}/cell_noise_plots/tables/done.txt",animal = ["NHP","Thy1"]),
         expand("analysis/{animal}/XE991{drug}_{table}_merged.csv", animal = ["NHP"], drug = drugs, table = ["FITable","VITable","ZAPTable"]),
         expand("analysis/figures/{animal}/drug/{table}/done.txt",animal=["NHP"],table=["FITable","VITable","ZAPTable"]),
         expand("analysis/figures/{animal}/FITable/done.txt",animal=animals)

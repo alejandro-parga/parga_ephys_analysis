@@ -18,6 +18,7 @@ filepath = f"results/{animal}/*/*_0noiseF_Table.csv"
 files = glob.glob(filepath)
 dirs = [os.path.dirname(f) for f in files]
 cellnames = [d.replace(f"results/{animal}/","") for d in dirs]
+print(cellnames)
 
 # create output directory
 outdir = f"analysis/figures/{animal}/cell_noise_plots"
@@ -60,22 +61,35 @@ for cell in cellnames:
     #if data frame is empty move to next cell
     if data.empty:
         continue 
-    df = pd.DataFrame()
-
+    # df = pd.DataFrame() # for df 10 rows (index=np.arange(10))
+    # df["CI"]=list(range(100,1100,100))
     treat=data.noise
-    current=""
-    for t in treat:
-        subdata = data[data.noise == t]
+    # current=""
+    # initialize figure
+    plt.figure()
+    # initialize lists to hold CI and AP data
+    CI = []
+    AP = []
+    # tmax = 0
+    # lop through noises to get data and plot
+    for i in range(len(treat)):
+        # print(treat[i])
+        subdata = data[data.noise == treat[i]]
         subdata.reset_index(drop=True,inplace=True)
         #get current injection
-        if not current:
-            CIstr=subdata["current_injection[][0]"].astype(str)
-            CIstr1=CIstr[0].replace("[","").replace("]","")
-            CIstr2=re.split(" ",CIstr1)
-            CInum=[int(n) for n in CIstr2]
-            df["CI"]=CInum
-            current = CInum
-        #get AP data
+        # if not current:
+        CIstr=subdata["current_injection[][0]"].astype(str)
+        CIstr1=CIstr[0].replace("[","").replace("]","")
+        CIstr2=re.split(" ",CIstr1)
+        CInum=[float(n) for n in CIstr2]
+            # df["CI"]=CInum
+            # current = CInum
+        CI.append(CInum)
+        # imax = max(CInum)
+        # if imax > tmax:
+        #     print(f"new max: {imax}")
+        #     max = imax
+        # #get AP data
         APstr=subdata["APs[][0]"].astype(str)
         #remove brackets
         APstr1=APstr[0].replace("[","").replace("]","")
@@ -84,15 +98,25 @@ for cell in cellnames:
         #convert character into integer
         APnum=[int(n) for n in APstr2]
         #add values to dataframe
-        df[t]=APnum
-        
-    #plot current injection vs APs
-    df.plot(x="CI",marker="o")
+        # df[t]=APnum
+        AP.append(APnum)
+        plt.plot(CI[i],AP[i],marker="o")
     plt.title(cell)
     plt.xlabel("Current Injection")
     plt.ylabel("Number of APs")
-    plt.xticks(list(range(100,1100,100)))
+    # plt.xticks(list(range(100,1100,100)))
+    # plt.xticks(list(range(100,tmax+100,100)))
+    # plt.show()
     plt.savefig(f'{outdir}/{cell}.png')
     plt.close()
+    
+    # #plot current injection vs APs
+    # df.plot(x="CI",marker="o")
+    # plt.title(cell)
+    # plt.xlabel("Current Injection")
+    # plt.ylabel("Number of APs")
+    # plt.xticks(list(range(100,1100,100)))
+    # plt.savefig(f'{outdir}/{cell}.png')
+    # plt.close()
 
 os.system(f"touch {table_outdir}/done.txt")
