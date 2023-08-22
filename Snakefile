@@ -27,7 +27,9 @@ rule all:
         expand("analysis/figures/{animal}/cell_noise_plots/tables/done.txt",animal = ["NHP","Thy1"]),
         expand("analysis/{animal}/XE991{drug}_{table}_merged.csv", animal = ["NHP"], drug = drugs, table = ["FITable","VITable","ZAPTable"]),
         expand("analysis/figures/{animal}/drug/{table}/done.txt",animal=["NHP"],table=["FITable","VITable","ZAPTable"]),
-        expand("analysis/figures/{animal}/FITable/done.txt",animal=animals)
+        expand("analysis/figures/{animal}/FITable/done.txt",animal=animals),
+        # plot FI noise per cell with stdCI
+        expand("analysis/figures/{animal}/stdCI_noise_plots/tables/done.txt", animal=["NHP", "Thy1"])
 
 # works for memprop_tables
 rule merge_tables:
@@ -106,6 +108,19 @@ rule plot_noise_by_cell:
     script:
         "scripts/plot_noise_per_cell.py"
 
+# works for FI noise
+# plots APs vs current injection per cell
+# current injection standarize (100-1000 pA)
+rule plot_noise_stdCI_per_cell:
+    input:
+        "results/{animal}/"
+    output:
+        "analysis/figures/{animal}/stdCI_noise_plots/tables/done.txt"
+    params:
+        animal="{animal}"
+    script:
+        "scripts/plot_noise_stdCI_per_cell.py"
+        
 # works for drug tables
 rule merge_drug_tables:
     input:
@@ -157,6 +172,7 @@ rule update_rulegraph:
         "rulegraph.png"
     shell:
         "snakemake --forceall --rulegraph | dot -Tpng > rulegraph.png"
+
 
 # delete tables to force re-creation for update 
 rule clean:
