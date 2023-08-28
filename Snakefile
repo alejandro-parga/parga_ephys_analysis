@@ -22,12 +22,14 @@ rule all:
         expand("analysis/{animal}/{table}_merged.csv",animal = ["NHP", "Thy1"],table = noise_tables),
         # makes plots for F1 and F2 noise
         # expand("analysis/figures/{animal}/frequency_{f}.png",animal = ["NHP","Thy1"],f=fs),
-        #expand("analysis/figures/{animal}/cell_noise_plots/{cell}_noise{f}.png",animal = ["NHP","Thy1"],f=fs)
+        # expand("analysis/figures/{animal}/cell_noise_plots/{cell}_noise{f}.png",animal = ["NHP","Thy1"],f=fs)
         #fix this later
-        expand("analysis/figures/{animal}/cell_noise_plots/tables/done.txt",animal = ["NHP","Thy1"]),
+        # plot noise by cell 
+        # expand("analysis/figures/{animal}/cell_noise_plots/tables/done.txt",animal = ["NHP","Thy1"]),
         expand("analysis/{animal}/XE991{drug}_{table}_merged.csv", animal = ["NHP"], drug = drugs, table = ["FITable","VITable","ZAPTable"]),
         expand("analysis/figures/{animal}/drug/{table}/done.txt",animal=["NHP"],table=["FITable","VITable","ZAPTable"]),
-        expand("analysis/figures/{animal}/FITable/done.txt",animal=animals),
+        # plot total FI by CI
+        # expand("analysis/figures/{animal}/FITable/done.txt",animal=animals),
         # plot FI noise per cell with stdCI
         expand("analysis/figures/{animal}/stdCI_noise_plots/tables/done.txt", animal=["NHP", "Thy1"])
 
