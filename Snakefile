@@ -14,19 +14,20 @@ drugs = ["a","b"]
 
 rule all:
     input:
-        #makes membraine property tables "merge_tables"
+        # makes membraine property tables "merge_tables"
         expand("analysis/{animal}/{table}_merged.csv",animal = animals,table = ["FITable","VITable","ZAPTable","APTable"]),
-        #plot membraine property "plot_membrane_properties"
+        # plot membraine property "plot_membrane_properties"
         expand("analysis/figures/{animal}/{table}/done.txt",animal = animals,table = ["VITable","ZAPTable"]),
-        #makes merged noise tables
+        # makes merged noise tables
         expand("analysis/{animal}/{table}_merged.csv",animal = ["NHP", "Thy1"],table = noise_tables),
         # makes plots for F1 and F2 noise
         # expand("analysis/figures/{animal}/frequency_{f}.png",animal = ["NHP","Thy1"],f=fs),
         # expand("analysis/figures/{animal}/cell_noise_plots/{cell}_noise{f}.png",animal = ["NHP","Thy1"],f=fs)
-        #fix this later
         # plot noise by cell 
         # expand("analysis/figures/{animal}/cell_noise_plots/tables/done.txt",animal = ["NHP","Thy1"]),
+        # makes merge drug tables
         expand("analysis/{animal}/XE991{drug}_{table}_merged.csv", animal = ["NHP"], drug = drugs, table = ["FITable","VITable","ZAPTable"]),
+        # plot membrane properties by drug
         expand("analysis/figures/{animal}/drug/{table}/done.txt",animal=["NHP"],table=["FITable","VITable","ZAPTable"]),
         # plot total FI by CI
         # expand("analysis/figures/{animal}/FITable/done.txt",animal=animals),
