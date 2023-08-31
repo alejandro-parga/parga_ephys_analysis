@@ -31,8 +31,10 @@ rule all:
         expand("analysis/figures/{animal}/drug/{table}/done.txt",animal=["NHP"],table=["FITable","VITable","ZAPTable"]),
         # plot total FI by CI
         # expand("analysis/figures/{animal}/FITable/done.txt",animal=animals),
-        # plot FI noise per cell with stdCI
-        expand("analysis/figures/{animal}/stdCI_noise_plots/tables/done.txt", animal=["NHP", "Thy1"])
+        # plot FI noise per cell with maxCI
+        expand("analysis/figures/{animal}/stdCI_noise_plots/tables/done.txt", animal = ["NHP","Thy1"]),
+        # creates the master tables with all membrane properties
+        expand("analysis/{animal}/membrane_properties_{animal}.csv", animal = animals)
 
 # works for memprop_tables
 rule merge_tables:
@@ -48,6 +50,22 @@ rule merge_tables:
         "logs/merge_tables/{animal}_{table}.log"
     script:
         "scripts/merge_tables.py"
+
+# makes merge table for all memprop_tables
+rule master_merge:
+    input:
+        "analysis/{animal}/FITable_merged.csv",
+        "analysis/{animal}/VITable_merged.csv",
+        "analysis/{animal}/ZAPTable_merged.csv",
+        "analysis/{animal}/APTable_merged.csv"
+    output:
+        merged = "analysis/{animal}/membrane_properties_{animal}.csv"
+    params:
+        animal = "{animal}"
+    log:
+        "logs/master_merge/{animal}.log"
+    script:
+        "scripts/master_merged.py"
 
 # works for ["VITable","ZAPTable"]
 rule plot_membrane_properties:
