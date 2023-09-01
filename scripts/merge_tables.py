@@ -10,8 +10,8 @@ outpath = snakemake.output.merged
 # #hardcoded variables for testing
 # print("TESTING")
 # prop = "FITable"
-# dir_path = "results/Thy1/"
-# outpath = f"analysis/Thy1/{prop}_merged.csv"
+# dir_path = "results/NHP/"
+# outpath = f"analysis/NHP/{prop}_merged.csv"
 
 #for log, print variables
 print(f"property: {prop}")
@@ -27,7 +27,7 @@ if not isExist:
     os.makedirs(outdir)
 
 # get the files for this animal/property
-file_path = f"{dir_path}/*/*_{prop}.csv"
+file_path = f"{dir_path}/*/AP[0-9]*[A-Z]_{prop}.csv"
 files = glob.glob(file_path)
 
 # read files and 
